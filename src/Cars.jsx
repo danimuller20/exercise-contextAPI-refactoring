@@ -1,14 +1,16 @@
 // src/Cars.jsx
 
 import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 import carBlue from './images/carBlue.jpeg';
 import carRed from './images/carRed.jpeg';
 import carYellow from './images/carYellow.jpeg';
-import { moveCar } from './redux/actionCreators';
+import CarsContext from './context/CarsContext';
 
-function Cars({ redCar, blueCar, yellowCar, moveCar }) {
+function Cars() {
+  const carContext = useContext(CarsContext);
+  const { redCar, blueCar, yellowCar } = carContext.cars;
+  const { moveCar } = carContext;
   return (
     <div>
       <div>
@@ -18,7 +20,7 @@ function Cars({ redCar, blueCar, yellowCar, moveCar }) {
           alt="red car"
         />
         <button
-          onClick={() => moveCar('red', !redCar)}
+          onClick={() => moveCar('redCar', !redCar)}
           type="button"
         >
           Move
@@ -31,7 +33,7 @@ function Cars({ redCar, blueCar, yellowCar, moveCar }) {
           alt="blue car"
         />
         <button
-          onClick={() => moveCar('blue', !blueCar)}
+          onClick={() => moveCar('blueCar', !blueCar)}
           type="button"
         >
           Move
@@ -44,7 +46,7 @@ function Cars({ redCar, blueCar, yellowCar, moveCar }) {
           alt="yellow car"
         />
         <button
-          onClick={() => moveCar('yellow', !yellowCar)}
+          onClick={() => moveCar('yellowCar', !yellowCar)}
           type="button"
         >
           Move
@@ -61,11 +63,4 @@ Cars.propTypes = {
   yellowCar: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  redCar: state.carReducer.cars.red,
-  blueCar: state.carReducer.cars.blue,
-  yellowCar: state.carReducer.cars.yellow});
-
-const mapDispatchToProps = { moveCar };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cars);
+export default Cars;
